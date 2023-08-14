@@ -932,3 +932,132 @@ En esta clase comenzamos a hablar sobre la lista y llegamos a conocer la clase *
 - Que en el caso de *ArrayList* podemos definir el tipo de los elementos mediante generics.
 Este es solo el comienzo de este poderoso paquete *java.util*. ¡En la próxima clase bucearemos más!
 
+## Equals
+
+Ha llegado el momento de replicar lo que se hizo en video.
+
+1. Cambie el nombre de la clase *Test* a *TestArrayList* y cree una copia de esa clase con el nombre *TestArrayListEquals*.
+
+2. Elimine parte del código de la clase *TestArrayListEquals*, dejando solo:
+
+```java
+public static void main(String[] args){
+
+    ArrayList<Cuenta> lista = new ArrayList<Cuenta>();
+
+    Cuenta cc1 = new CuentaCorriente(22, 22);
+    Cuenta cc2 = new CuentaCorriente(22, 22);
+
+    lista.add(cc1);
+
+    for(Cuenta cuenta : lista){
+        System.out.println(cuenta);
+    }
+}
+```
+
+3. Pruebe si su lista contiene una cuenta, usando el método *cuentains*:
+
+```java
+public static void main(String[] args){
+
+    ArrayList<Cuenta> lista = new ArrayList<Cuenta>();
+
+    Cuenta cc1 = new CuentaCorriente(22, 22);
+    Cuenta cc2 = new CuentaCorriente(22, 22);
+
+    lista.add(cc1);
+
+    boolean existe = lista.contains(cc2); //nuevo
+
+    System.out.println("Ya existe? " + existe);
+
+    for(Cuenta cuenta : lista){
+        System.out.println(cuenta);
+    }
+}
+```
+
+Tenga en cuenta que la salida es *false*, pero eso no es lo que queremos porque los dos objetos representan la misma cuenta.
+
+4. En la clase *Cuenta* agregue la funcionalidad que verificará si una cuenta es igual a otra. Vea abajo:
+
+```java
+public boolean esIgual(Cuenta otra){
+
+    if(this.agencia != otra.agencia){
+        return false;
+    }
+
+    if(this.numero != otra.numero){
+        return false;
+    }
+
+    return true;
+}
+```
+
+5. En la clase *TestArrayListEquals*, pruebe el método usando el siguiente código:
+
+```java
+//creación de cuentas omitidas
+
+boolean igual = cc1.esIgual(cc2);
+System.out.println(igual); //debe imprimir true
+```
+
+6. Haga la misma prueba ahora con cuentas que tengan diferentes números y valores de agencia.
+
+7. Modificar su método *esIgual* para sobreescribir el método *equals*, y recuerde usar *@Override*. Cambie el nombre del método, consulte el código a continuación:
+
+```java
+@Override
+public boolean equals(Object ref){
+
+    Cuenta otra = (Cuenta) ref;
+
+    if(this.agencia != otra.agencia){
+        return false;
+    }
+
+    if(this.numero != otra.numero){
+        return false;
+    }
+
+    return true;
+}
+```
+
+8. Corrija el código en la clase Test y ejecútalo. ¡Vea que ahora nuestra salida es del método *cuentains* es *true*!
+
+## De Array para List
+
+De ahora en adelante usaremos las listas para escapar de las desventajas del array. Sin embargo, ¿recuerdas nuestro array *String[]* del método main? Ciertamente, y no podemos cambiar la firma del método *main* ya que la JVM no acepta esto. Bueno, dado que no podemos cambiar la firma, ¿no hay forma de transformar un array en una lista? Por supuesto que la hay, y para eso, ya existe una clase que ayuda en esta tarea: *java.util.Arrays*.
+
+La clase *java.util.Arrays* tiene varios métodos estáticos auxiliares para trabajar con arrays. Vea lo simple que es transformar un array en una lista:
+
+```java
+public class Test {
+
+  public static void main(String[] args) {
+    List<String> argumentos = Arrays.asList(args);
+  }
+}
+```
+
+Veamos otras características de la clase java.util.Arrays
+
+## ¿Qué aprendimos?
+En esta clase aprendemos:
+
+- Cómo implementar el método *equals* para definir la igualdad.
+- Que el método *equals* es usado por las listas.
+- Que hay más de una lista, *java.util.LinkedList*.
+- La diferencia entre *ArrayList* y *LinkedList*.
+- La interfaz *java.util.List* que define los métodos de la lista.
+En el próximo capítulo veremos otra implementación de la *interfaz List*.
+
+### Proyecto del aula anterior
+¿Comenzando en esta etapa? Aquí puedes descargar los archivos del proyecto que hemos avanzado hasta el aula anterior.
+
+[Descargue los archivos en Github](https://github.com/alura-es-cursos/java-util-collections-lambdas/tree/clase-4 "Descargue los archivos en Github") o haga clic [aquí](https://github.com/alura-es-cursos/java-util-collections-lambdas/archive/clase-4.zip "aquí") para descargarlos directamente.

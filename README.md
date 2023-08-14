@@ -322,3 +322,613 @@ Como el cliente no extiende la clase de *Cuenta* ni implementa una interfaz de t
 
 La certificación Java tiene muchas de estas preguntas sobre cast posible, imposible, explícita e implícita. Si pretendes obtener esta certificación, vale la pena estudiar este tema con mucha tranquilidad.
 
+## Haga lo que hicimos en clase: Arrays
+
+Ha llegado el momento de practicar lo que vimos en este capítulo.
+
+1. Tenemos la siguiente clase:
+
+```java
+package com.bytebank.banco.test;
+
+import com.bytebank.banco.modelo.CuentaCorriente;
+
+public class TestArrayReferencias {
+
+    public static void main(String[] args) {
+
+        CuentaCorriente[] cuentas = new CuentaCorriente[5];
+        CuentaCorriente cc1 = new CuentaCorriente(22, 11);
+        cuentas[0] = cc1;
+
+        CuentaCorriente cc2 = new CuentaCorriente(22, 22);
+        cuentas[1] = cc2;    
+
+        System.out.println( cuentas[1].getNumero()  );
+
+        CuentaCorriente ref = cuentas[0];
+        System.out.println(cc2.getNumero());
+        System.out.println(ref.getNumero());
+    }
+}
+```
+
+2. Queremos almacenar instancias de *CuentaCorriente* o *CuentaAhorro* en el array de cuentas. Para eso, necesitamos que la cuenta sea de un tipo más genérico, en el caso de *Cuenta*.
+
+```java
+package com.bytebank.banco.test;
+
+import com.bytebank.banco.modelo.CuentaCorriente;
+// importo
+import com.bytebank.banco.modelo.CuentaAhorro;
+
+public class TestArrayReferencias {
+
+    public static void main(String[] args) {
+
+        // alterando el tipo
+        Cuenta[] cuentas = new Cuenta[5];
+        CuentaCorriente cc1 = new CuentaCorriente(22, 11);
+        cuentas[0] = cc1;
+
+        // crea instancia de CuentaAhorro
+        CuentaAhorro ca2 = new CuentaAhorro(22, 22);
+        cuentas[1] = ca2;    
+
+        System.out.println(cuentas[1].getNumero()  );
+
+        // no compila
+        CuentaCorriente ref = cuentas[0];
+        System.out.println(cc2.getNumero());
+        System.out.println(ref.getNumero());
+
+    }
+}
+```
+
+Cuando cambiamos el tipo de *array* de *CuentaCorriente*, la siguiente instrucción deja de compilarse:
+
+`CuentaCorriente ref = cuentas[0];`
+
+Debido a que, en tiempo de ejecución, tenemos un objeto de tipo *CuentaCorriente* como primer elemento del array de cuentas, su referencia es del tipo *Cuenta* al acceder a cuentas [0]. Por lo tanto, una solución es cambiar el tipo de variable de *ref* a *Cuenta*:
+
+```java
+package com.bytebank.banco.test;
+
+import com.bytebank.banco.modelo.CuentaCorriente;
+// importo
+import com.bytebank.banco.modelo.CuentaAhorro;
+
+public class TestArrayReferencias {
+
+    public static void main(String[] args) {
+
+        // alterando el tipo
+        Cuenta[] cuentas = new Cuenta[5];
+        CuentaCorriente cc1 = new CuentaCorriente(22, 11);
+        cuentas[0] = cc1;
+
+        // crea instancia de CuentaAhorro
+        CuentaAhorro ca2 = new CuentaAhorro(22, 22);
+        cuentas[1] = ca2;    
+
+        System.out.println(cuentas[1].getNumero()  );
+
+        // alterou o tipo, agora compila
+        Cuenta ref = cuentas[0];
+        System.out.println(cc2.getNumero());
+        System.out.println(ref.getNumero());
+    }
+}
+```
+
+3. Modifique el código para que incluso utilizando el tipo *CuentaCorriente* sea posible asignar a la variable ref el valor de *cuentas[0]*. Como estamos seguros de que el elemento en la posición *cuentas[0]* es una instancia de *CuentaCorriente*, podemos asumir la responsabilidad de la conversión a través de un *type cast*:
+
+```java
+package com.bytebank.banco.test;
+
+import com.bytebank.banco.modelo.CuentaCorriente;
+// importo
+import com.bytebank.banco.modelo.CuentaAhorro;
+
+public class TestArrayReferencias {
+
+    public static void main(String[] args) {
+
+        // alterando el tipo
+        Cuenta[] cuentas = new Cuenta[5];
+        CuentaCorriente cc1 = new CuentaCorriente(22, 11);
+        cuentas[0] = cc1;
+
+        // crea instancia de CuentaAhorro
+        CuentaAhorro ca2 = new CuentaAhorro(22, 22);
+        cuentas[1] = ca2;    
+
+        System.out.println(cuentas[1].getNumero()  );
+
+        // alterou o tipo, realizando o cast
+        CuentaCorriente ref = (CuentaCorriente) cuentas[0];
+        System.out.println(cc2.getNumero());
+        System.out.println(ref.getNumero());
+    }
+}
+```
+
+4. Ahora intente acceder al elemento en la posición de *cuentas[1]*. Como en tiempo de ejecución es del tipo *CuentaAhorro*, el cast no funcionará y se lanzará una excepción en la consola.
+
+## ¿Qué aprendimos?
+
+En esta clase aprendimos:
+
+- Un array de tipo *Object* puede contener cualquier tipo de referencia.
+- Cuando convertimos una referencia genérica a una referencia más específica, necesitamos usar un *type cast*.
+- El *cast* solo compila cuando es posible, aún así puede fallar al ejecutarse.
+- Cuando falla el *type cast*, podemos recibir un *ClassCastException*.
+- Para recibir valores al llamar al programa Java en la línea de comando, podemos usar la matriz *String[]* en el método *main*.
+¡En la próxima clase comenzaremos a hablar de listas! Espere :)
+
+## Proyecto del aula anterior
+
+¿Comenzando en esta etapa? Aquí puedes descargar los archivos del proyecto que hemos avanzado hasta el aula anterior.
+
+[Descargue los archivos en Github](https://github.com/alura-es-cursos/java-util-collections-lambdas/tree/clase-2 "Descargue los archivos en Github") o haga clic [aquí](https://github.com/alura-es-cursos/java-util-collections-lambdas/archive/clase-2.zip "aquí") para descargarlos directamente.
+
+## GuardadorDeCuentas
+
+Ha llegado el momento de que pongas en práctica lo visto en clase. Para hacer esto, siga los pasos que se enumeran a continuación.
+
+1. Cree la clase *GuardadorDeCuentas*:
+
+```java
+package com.bytebank.banco.modelo;
+
+public class GuardadorDeCuentas {
+
+    private Cuenta[] referencias;
+
+    public GuardadorDeCuentas() {
+        this.referencias = new Cuenta[10];
+    }
+}
+```
+
+2. Crea una clase para probar al guardador de cuentas.
+
+```java
+public class Test {
+    public static void main(String[] args) {
+        GuardadorDeCuentas guardador = new GuardadorDeCuentas();
+
+        Cuenta cc = new CuentaCorriente(22, 11);
+        guardador.adicionar(cc);
+    }
+}
+```
+
+3. Cree el método adicionar() en el guardador:
+
+```java
+public class GuardadorDeCuentas {
+
+    private Cuenta[] referencias;
+    private int posicionLibre;
+
+    public GuardadorDeCuentas() {
+        this.referencias = new Cuenta[10];
+        this.posicionLibre = 0;
+    }
+
+    public void adicionar(Cuenta ref) {
+        referencias[this.posicionLibre] = ref;
+        this.posicionLibre++;
+    }
+
+}
+```
+
+4. Modifique su clase de Test para incluir una cuenta más:
+
+```java
+public class Test {
+    public static void main(String[] args) {
+        GuardadorDeCuentas guardador = new GuardadorDeCuentas();
+
+        Cuenta cc = new CuentaCorriente(22, 11);
+        guardador.adicionar(cc);
+
+        Cuenta cc2 = new CuentaCorriente(22, 22);
+        guardador.adicionar(cc2);
+    }
+}
+```
+
+5.  Ahora queremos comprobar si la cantidad de elementos dentro del guardador es 2. Cree el código en la clase de Test y aproveche la sugerencia de Eclipse para crear el método por usted.
+
+````java
+public class Test {
+    public static void main(String[] args) {
+        GuardadorDeCuentas guardador = new GuardadorDeCuentas();
+
+        Cuenta cc = new CuentaCorriente(22, 11);
+        guardador.adicionar(cc);
+
+        Cuenta cc2 = new CuentaCorriente(22, 22);
+        guardador.adicionar(cc2);
+
+        int tamano = guardador.getCantidadDeElementos();
+        System.out.println(tamano);
+    }
+}
+```
+
+Luego complete la implementación del método en la clase *GuardadorDeCuentas*.
+
+```java
+public class GuardadorDeCuentas {
+
+    private Cuenta[] referencias;
+    private int posicionLibre;
+
+    public GuardadorDeCuentas() {
+        this.referencias = new Cuenta[10];
+        this.posicionLibre = 0;
+    }
+
+    public void adicionar(Cuenta ref) {
+        referencias[this.posicionLibre] = ref;
+        this.posicionLibre++;
+    }
+
+    public int getCantidadDeElementos() {
+        return this.posicionLibre;
+    }
+}
+```
+
+6. Agregue una característica más a la clase de Test para recuperar un determinado elemento del guardador desde una posición. Nuevamente use Eclipse para generar el método por usted:
+
+```java
+public class Test {
+    public static void main(String[] args) {
+        GuardadorDeCuentas guardador = new GuardadorDeCuentas();
+
+        Cuenta cc = new CuentaCorriente(22, 11);
+        guardador.adicionar(cc);
+
+        Cuenta cc2 = new CuentaCorriente(22, 22);
+        guardador.adicionar(cc2);
+
+        int tamano = guardador.getCantidadDeElementos();
+        System.out.println(tamano);
+
+        Cuenta ref = guardador.getReferencia(0);
+        System.out.println(ref.getNumero());
+    }
+}
+```
+
+7. Ahora implemente el método en *GuardadorDeCuentas*:
+
+```java
+public class GuardadorDeCuentas {
+
+    private Cuenta[] referencias;
+    private int posicionLibre;
+
+    public GuardadorDeCuentas() {
+        this.referencias = new Cuenta[10];
+        this.posicionLibre = 0;
+    }
+
+    public void adicionar(Cuenta ref) {
+        referencias[this.posicionLibre] = ref;
+        this.posicionLibre++;
+    }
+
+    public int getCantidadDeElementos() {
+        return this.posicionLibre;
+    }
+
+    public Cuenta getReferencia(int pos) {
+        return this.referencias[pos];
+    }
+}
+```
+
+8. Ejecute la clase de Test para verificar que el guardador esté funcionando.
+
+9. (Desafío) Ahora intente crear un guardador que sepa almacenar cualquier tipo de referencias, usando la clase *Object*.
+
+## ArrayList
+
+Ha llegado el momento de que pongas en práctica lo visto en clase. Para hacer esto, siga los pasos que se enumeran a continuación.
+
+1. ¿Realizó el desafío del video anterior? Entonces, verifique si su guardador se ve parecido a el siguiente código:
+
+```java
+public class GuardadorDeReferencias {
+
+    private Object[] referencias;
+    private int posicionLibre;
+
+    public GuardadorDeReferencias() {
+        this.referencias = new Object[10];
+        this.posicionLibre = 0;
+    }
+
+    public void adicionar(Object ref) {
+        referencias[this.posicionLibre] = ref;
+        this.posicionLibre++;
+    }
+
+    public int getCantidadDeElementos() {
+        return this.posicionLibre;
+    }
+
+    public Object getReferencia(int pos) {
+        return this.referencias[pos];
+    }
+}
+```
+
+2. Cree una prueba(test) para validar el guardador de referencias:
+
+```java
+public class TestGuardadorReferencias {
+    public static void main(String[] args) {
+        GuardadorDeReferencias guardador = new GuardadorDeReferencias();
+
+        Cuenta cc = new CuentaCorriente(22, 11);
+        guardador.adicionar(cc);
+
+        Cuenta cc2 = new CuentaCorriente(22, 22);
+        guardador.adicionar(cc2);
+
+        int tamano = guardador.getCantidadDeElementos();
+        System.out.println(tamano);
+
+        Cuenta ref = (Cuenta)guardador.getReferencia(0);
+        System.out.println(ref.getNumero());        
+    }
+}
+```
+
+3. Ya existe una clase para simplificar el acceso al array. Esta clase es *ArrayList*. Cree la clase *Test* dentro del paquete *br.com.bytebank.banco.test.util* para probar esta clase con el siguiente código:
+
+```java
+package com.bytebank.banco.test.util;
+
+import java.util.ArrayList;
+
+public class Test {
+    public static void main(String[] args) {
+
+        ArrayList lista = new ArrayList();
+
+        Cuenta cc = new CuentaCorriente(22, 11);
+        lista.add(cc);
+
+        Cuenta cc2 = new CuentaCorriente(22, 22);
+        lista.add(cc2);
+
+        System.out.println("Tamano: " + lista.size());
+
+        Cuenta ref = (Cuenta) lista.get(0);
+        System.out.println(ref.getNumero());
+
+        lista.remove(0);
+        System.out.println("Tamano: " + lista.size());
+
+        Cuenta cc3 = new CuentaCorriente(33, 311);
+        lista.add(cc3);
+
+        Cuenta cc4 = new CuentaCorriente(33, 322);
+        lista.add(cc4);
+
+        for(int i = 0; i < lista.size(); i++) {
+            Object oRef = lista.get(i);
+            System.out.println(oRef);
+        }
+
+        System.out.println("----------");
+
+        for(Object oRef : lista) {
+            System.out.println(oRef);
+        }
+
+    }
+}
+```
+
+## Generics
+
+Ha llegado el momento de que pongas en práctica lo visto en clase. Para hacer esto, siga los pasos que se enumeran a continuación.
+
+1. Para demostrar problemas en el ArrayList, agregue un objeto de tipo *Cliente* y ejecute la clase Test. Verá que se producirá una excepción del tipo *ClassCastException* porque no fue posible convertir la referencia del tipo *Cliente* en una Cuenta.
+
+```java
+package br.com.bytebank.banco.test.util;
+
+import java.util.ArrayList;
+
+public class Test {
+    public static void main(String[] args) {
+
+        ArrayList lista = new ArrayList();
+
+        //Cuenta cc = new CuentaCorriente(22, 11);
+        Cliente cliente = new Cliente();
+        lista.add(cliente);
+
+        Cuenta cc2 = new CuentaCorriente(22, 22);
+        lista.add(cc2);
+
+        System.out.println("Tamanho: " + lista.size());
+
+        Cuenta ref = (Cuenta) lista.get(0);
+        System.out.println(ref.getNumero());
+
+        lista.remove(0);
+        System.out.println("Tamanho: " + lista.size());
+
+        Cuenta cc3 = new CuentaCorriente(33, 311);
+        lista.add(cc3);
+
+        Cuenta cc4 = new CuentaCorriente(33, 322);
+        lista.add(cc4);
+
+        for(int i = 0; i < lista.size(); i++) {
+            Object oRef = lista.get(i);
+            System.out.println(oRef);
+        }
+
+        System.out.println("----------");
+
+        for(Object oRef : lista) {
+            System.out.println(oRef);
+        }
+
+    }
+}
+```
+
+2. Informe al compilador que solo desea crear una matriz de cuentas. Modifique la clase de prueba para hacer esto:
+
+```java
+package br.com.bytebank.banco.test.util;
+
+import java.util.ArrayList;
+
+public class Test {
+    public static void main(String[] args) {
+
+        ArrayList<Cuenta> lista = new ArrayList<Cuenta>();
+
+        Cuenta cc = new CuentaCorriente(22, 11);
+        lista.add(cc);
+
+        Cuenta cc2 = new CuentaCorriente(22, 22);
+        lista.add(cc2);
+
+        System.out.println("Tamanho: " + lista.size());
+
+        Cuenta ref = (Cuenta) lista.get(0);
+        System.out.println(ref.getNumero());
+
+        lista.remove(0);
+        System.out.println("Tamanho: " + lista.size());
+
+        Cuenta cc3 = new CuentaCorriente(33, 311);
+        lista.add(cc3);
+
+        Cuenta cc4 = new CuentaCorriente(33, 322);
+        lista.add(cc4);
+
+        for(int i = 0; i < lista.size(); i++) {
+            Object oRef = lista.get(i);
+            System.out.println(oRef);
+        }
+
+        System.out.println("----------");
+
+        for(Object oRef : lista) {
+            System.out.println(oRef);
+        }
+
+    }
+}
+```
+
+3. Intente agregar un objeto de otro tipo a la lista anterior. ¡El compilador no te dejará!
+
+4. Modifique su código para aprovechar los beneficios de los *generics*, elimine el cast en el método *get()* y al usar enchanced *for*:
+
+```java
+package br.com.bytebank.banco.test.util;
+
+import java.util.ArrayList;
+
+public class Test {
+    public static void main(String[] args) {
+
+        ArrayList<Cuenta> lista = new ArrayList<Cuenta>();
+
+        Cuenta cc = new CuentaCorriente(22, 11);
+        lista.add(cc);
+
+        Cuenta cc2 = new CuentaCorriente(22, 22);
+        lista.add(cc2);
+
+        System.out.println("Tamanho: " + lista.size());
+
+        Cuenta ref = lista.get(0);
+        System.out.println(ref.getNumero());
+
+        lista.remove(0);
+        System.out.println("Tamanho: " + lista.size());
+
+        Cuenta cc3 = new CuentaCorriente(33, 311);
+        lista.add(cc3);
+
+        Cuenta cc4 = new CuentaCorriente(33, 322);
+        lista.add(cc4);
+
+        for(int i = 0; i < lista.size(); i++) {
+            Object oRef = lista.get(i);
+            System.out.println(oRef);
+        }
+
+        System.out.println("----------");
+
+        for(Cuenta oRef : lista) {
+            System.out.println(oRef);
+        }
+
+    }
+}
+```
+
+5. ¡Excelente! ¡Ahora su código es más seguro y expresivo con el uso de **Generics**!
+
+## Otras formas de inicialización
+
+Lista con capacidad predefinida.
+
+Decíamos que el *ArrayList* es un array dinámico, es decir, debajo de la tela se usa un array, pero sin preocuparse por los detalles y limitaciones.
+
+Ahora piense que necesita crear una lista que represente a los 26 estados de Brasil. Le gustaría usar un *ArrayList* para "escapar" del *array*, pero sabe que *ArrayList* crea un array automáticamente, del tamaño que la clase considere conveniente.
+
+¿No hay alguna forma de crear esta lista definiendo el tamaño del array? Por supuesto que lo es y es muy sencillo. El constructor de la clase *ArrayList* es sobrecargado y tiene un parámetro que recibe la capacidad:
+
+```java
+ArrayList lista = new ArrayList(26); //capacidad inicial
+```
+
+La lista sigue siendo dinámica, ¡pero el tamaño de la matriz inicial es 26!
+
+Lista a partir de otra
+
+Otra forma de inicializar una lista es basada en otra que es muy común en el día a día. Para esto, *ArrayList* tiene un constructor más que recibe la lista base:
+
+```java
+ArrayList lista = new ArrayList(26); //capacidad inicial
+lista.add("RJ");
+lista.add("SP");
+//otros estados
+ArrayList nueva = new ArrayList(lista); //creando basada en la primera lista
+```
+
+Cuanto más sepamos sobre las clases estándar de Java, más fácil será nuestro código.
+
+## ¿Qué aprendimos?
+
+En esta clase comenzamos a hablar sobre la lista y llegamos a conocer la clase *java.util.ArrayList*. Aprendimos:
+
+- Que la clase *java.util.ArrayList* encapsula el uso de array y ofrece varios métodos de más alto nivel.
+- Que una lista guarda referencias.
+- Cómo usar los métodos *size*, *get*, *remove*.
+- Cómo usar *foreach* para iterar a través de *ArrayList*.
+- Que los generics parametrizan clases
+- Que en el caso de *ArrayList* podemos definir el tipo de los elementos mediante generics.
+Este es solo el comienzo de este poderoso paquete *java.util*. ¡En la próxima clase bucearemos más!
+

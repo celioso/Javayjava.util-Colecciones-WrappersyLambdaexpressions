@@ -262,4 +262,63 @@ En el próximo capítulo hablaremos un poco más sobre arrays (de tipo Object) y
 
 [Descargue los archivos en Github](https://github.com/alura-es-cursos/java-util-collections-lambdas/tree/clase-1 "Descargue los archivos en Github") o haga clic [aquí](https://github.com/alura-es-cursos/java-util-collections-lambdas/archive/clase-1.zip "aquí") para descargarlos directamente.
 
+## Cast explícito e implícito
+
+Ya hemos hablado mucho sobre *Type Cast* que no es más que convertir de un tipo a otro.
+
+Cast implícito y explícito de primitivos
+
+Para ser correctos, ya hemos visto cast sucediendo incluso antes de definirlo. Tenemos dos ejemplos, el primero en el mundo de los primitivos:
+
+```java
+int numero = 3;
+double valor = numero; //cast implícito
+```
+
+Observe que colocamos un valor de la variable *numero* (tipo int) en la variable valor (tipo double), sin usar un cast explícito. ¿Esto funciona? La respuesta es sí, ya que cualquier entero cabe dentro de un double. Por eso el compilador se queda quieto y no exige un cast *explícito*, pero nada le impide escribir lo:
+
+```java
+int numero = 3;
+double valor = (double) numero; //cast explícito
+```
+
+Ahora bien, lo contrario no funciona sin cast, ya que un *double* no cabe en un *int*:
+
+```java
+double valor = 3.56;
+int numero = (int) valor; //cast explícito es exigido por el compilador
+```
+
+En este caso, el compilador desecha todo el valor fraccionario y almacena solo el valor entero.
+
+## Cast implícito y explícito de referencias
+
+En las referencias, se aplica el mismo principio. Si el cast siempre funciona no es necesario hacerlo explícito, por ejemplo:
+
+```java
+CuentaCorriente cc1 = new CuentaCorriente(22, 33);
+Cuenta cuenta = cc1; //cast implícito
+```
+
+Aquí también podría ser explícito, pero nuevamente, el compilador no lo requiere porque cualquier CuentaCorriente es una Cuenta:
+
+```java
+CuentaCorriente cc1 = new CuentaCorriente(22, 33);
+Cuenta Cuenta = (Cuenta) cc1; //cast explícito mas desnecessário
+```
+
+## Cast posible e imposible
+
+¿Type cast explícito siempre funciona?
+
+La respuesta es no. El cast explícito solo funciona si es posible, pero hay casos en los que el compilador sabe que un cast es imposible y luego ni compila ni con *type* cast. Por ejemplo:
+
+```java
+Cliente cliente = new Cliente();
+Cuenta cuenta = (Cuenta) cliente; //imposible, no compila
+```
+
+Como el cliente no extiende la clase de *Cuenta* ni implementa una interfaz de tipo de *Cuenta*, es imposible que funcione ese *cast*, ya que una referencia de tipo de Cuenta nunca puede apuntar a un objeto del tipo de *Cliente*.
+
+La certificación Java tiene muchas de estas preguntas sobre cast posible, imposible, explícita e implícita. Si pretendes obtener esta certificación, vale la pena estudiar este tema con mucha tranquilidad.
 

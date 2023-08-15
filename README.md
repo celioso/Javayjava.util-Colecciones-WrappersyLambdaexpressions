@@ -1061,3 +1061,66 @@ En el próximo capítulo veremos otra implementación de la *interfaz List*.
 ¿Comenzando en esta etapa? Aquí puedes descargar los archivos del proyecto que hemos avanzado hasta el aula anterior.
 
 [Descargue los archivos en Github](https://github.com/alura-es-cursos/java-util-collections-lambdas/tree/clase-4 "Descargue los archivos en Github") o haga clic [aquí](https://github.com/alura-es-cursos/java-util-collections-lambdas/archive/clase-4.zip "aquí") para descargarlos directamente.
+
+## vector y colección
+
+Practiquemos rápidamente lo que vimos en esta clase más conceptual. Para hacer esto, siga los pasos a continuación.
+
+1. Abra la clase *TestArrayList* para probar las otras implementaciones de la lista. Para hacer esto, cree una instancia de *java.util.Vector*, pero también pruebe *ArrayList* y *LinkedList*:
+
+```java
+public class TestArrayList {
+
+    public static void main(String[] args) {
+
+        //List<Cuenta> lista = new ArrayList<Cuenta>(); //usa array por debajo
+        //List<Cuenta> lista = new LinkedList<Cuenta>(); //lista linkada
+        List<Cuenta> lista = new Vector<Cuenta>(); //usa array por debajo, pero también es threadsafe
+
+        //otro código omitido
+        //...
+    }
+}
+```
+
+Tenga en cuenta que todo el resto del código sigue funcionando, independientemente de la lista utilizada. Esto se debe a que todas las implementaciones son listas.
+
+2. Pruebe la interfaz *java.util.Collection* en la misma clase *TestArrayList*:
+
+```java
+public class TestArrayList {
+
+    public static void main(String[] args) {
+
+        //List<Cuenta> lista = new ArrayList<Cuenta>(); //usa array por debajo
+        //List<Cuenta> lista = new LinkedList<Cuenta>(); //lista linkada
+        Collection<Cuenta> lista = new Vector<Cuenta>(); 
+
+        //otro código omitido
+        //...
+        Cuenta ref = lista.get(0); //no compila
+        //...
+
+    }
+}
+```
+
+Tenga en cuenta que algunas líneas de código dejan de compilarse, justo los métodos que usan la posición, cómo *remove(int pos)* o *get(int pos)*. Esto se debe a que solo las listas son secuencias y tienen un índice, pero hay otras colecciones que funcionan sin índice y por lo tanto no tienen estos métodos.
+
+3) Después de probar la interfaz *java.util.Collection*, use la interfaz *java.util.List* nuevamente.
+
+## ¿Qué aprendimos?
+
+En esta clase vimos:
+
+- java.util.Vector, que es un *ArrayList* threadsafe.
+- La interfaz *java.util.Collection* que es la interfaz de todas las colecciones.
+- Las listas son secuencias que aceptan elementos duplicados.
+- Los conjuntos (*java.util.Set*) también son colecciones, pero no aceptan duplicados ni listas.
+¡En la siguiente clase resolveremos el problema de guardar primitivos en las listas!
+
+### Proyecto del aula anterior
+
+¿Comenzando en esta etapa? Aquí puedes descargar los archivos del proyecto que hemos avanzado hasta el aula anterior.
+
+[Descargue los archivos en Github](https://github.com/alura-es-cursos/java-util-collections-lambdas/tree/clase-5 "Descargue los archivos en Github") o haga clic [aquí](https://github.com/alura-es-cursos/java-util-collections-lambdas/archive/clase-5.zip "aquí") para descargarlos directamente.

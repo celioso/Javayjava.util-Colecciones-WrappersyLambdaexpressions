@@ -1196,3 +1196,225 @@ En esta clase nos enfocamos en las clases de *WRAPPERS* y aprendimos que.
 - Las clases *wrapper* tienen varios métodos auxiliares, por ejemplo para el *parsing*.
 - Todas las clases *wrappers* que representan un valor numérico tienen la clase *java.lang.Number* como madre.
 ¡En la próxima clase aprenderemos a ordenar las listas!
+
+## Desafío de Collections
+
+Daré un desafío y te haré algunas preguntas relacionadas con las listas. Para responder, investigue la documentación oficial de la clase Collections dentro del paquete java.util:
+
+- ¿Cómo podemos invertir el orden de una lista?
+- ¿Cómo podemos mezclar todos los elementos de una lista?
+- ¿Cómo podemos rotar los elementos de una lista?
+¿Puedes averiguar los métodos?
+
+### Opinión del instructor
+
+Para invertir el orden de la lista, puede utilizar el método reverse de la clase *Collections*:
+
+```java
+Collections.reverse(lista);
+```
+
+Para mezclar existe el método *shuffle* y para girar existe el método de *rotate*:
+
+```java
+Collections.shuffle(lista);
+Collections.rotate(lista, 5); //rotar 5 posiciones
+```
+## Ordenar Arrays
+
+Ordenar *arrays* tampoco es difícil, solo use el método de ordenación de la clase Arrays. La clase *Arrays* es similar a *Collections* en el sentido de que también une varios métodos de utilidad:
+
+```java
+import java.util.Arrays;
+
+public class TestSortArrays
+{
+    public static void main(String[] args)
+    {
+        int[] numeros = new int[]{43, 15, 64, 22, 89};
+
+        Arrays.sort(numeros); //método utilitário sort
+
+        System.out.println(Arrays.toString(numeros)); //método utilitário toString
+
+        //Salida : [15, 22, 43, 64, 89]
+    }
+}
+```
+## Ordenación de listas
+
+1. Comenzaremos creando la clase Test dentro de nuestro paquete *util*. ¡No olvides poner el método *main*!
+
+2. Ahora para ahorrar tiempo, podemos copiar el siguiente código disponible dentro de nuestro *main*:
+
+```java
+Cuenta cc1 = new CuentaCorriente(22, 33);
+cc1.depositar(333.0);
+
+Cuenta cc2 = new CuentaAhorro(22, 44);
+cc2.depositar(444.0);
+
+Cuenta cc3 = new CuentaCorriente(22, 11);
+cc3.depositar(111.0);
+
+Cuenta cc4 = new CuentaAhorro(22, 22);
+cc4.depositar(222.0);
+
+List<Cuenta> lista = new ArrayList<>();
+lista.add(cc1);
+lista.add(cc2);
+lista.add(cc3);
+lista.add(cc4);
+```
+¡No olvides importar las clases!
+
+3. Como hemos visto, necesitamos crear una clase que implemente la interfaz *Comparator*, lo haremos dentro del mismo archivo *Test.java* de la siguiente manera:
+
+```java
+class NumeroDeCuentaComparator implements Comparator<Cuenta> {
+
+    @Override
+    public int compare(Cuenta c1, Cuenta c2) {
+
+    }
+}
+```
+4. Al observar el retorno del método *compare()*, aprendemos cómo hacer nuestra comparación, que se verá así:
+
+```java
+class NumeroDeCuentaComparator implements Comparator<Cuenta> {
+
+    @Override
+    public int compare(Cuenta c1, Cuenta c2) {
+        return Integer.compare(c1.getNumero(), c2.getNumero());
+    }
+}
+```
+5. Ahora, en la clase Test, al final del método *main*, cree un objeto de la clase *NumeroDeCuentaComparator* y pase el comparator al método *sort*:
+
+```java
+NumeroDeCuentaComparator comparator = new NumeroDeCuentaComparator();
+lista.sort(comparator);
+```
+
+6. Mostraremos en pantalla el resultado antes y después de ordenar de la siguiente manera:
+
+```java
+for (Cuenta cuenta : lista) {
+    System.out.println(cuenta);
+}
+
+NumeroDeCuentaComparator comparator = new NumeroDeCuentaComparator();
+lista.sort(comparator);
+
+System.out.println("---------");
+```
+
+7. Tenga cuidado con los errores de compilación. Una vez funcionando, ejecute la clase Test y verifique el resultado.
+
+## Ordenar por String
+1. Ahora comenzaremos a implementar el método de ordenación basado en el nombre del titular de la cuenta. Para hacer esto, cree una nueva clase de prueba (o use la anterior) que tenga el bloque de código a continuación:
+
+```java
+Cuenta cc1 = new CuentaCorriente(22, 33);
+Cliente clienteCC1 = new Cliente();
+clienteCC1.setNombre("Nico");
+cc1.setTitular(clienteCC1);
+cc1.depositar(333.0);
+
+Cuenta ca2 = new CuentaAhorro(22, 44);
+Cliente clienteCC2 = new Cliente();
+clienteCC2.setNombre("Guilermo");
+ca2.setTitular(clienteCC2);
+ca2.depositar(444.0);
+
+Cuenta cc3 = new CuentaCorriente(22, 11);
+Cliente clienteCC3 = new Cliente();
+clienteCC3.setNombre("Paulo");
+cc3.setTitular(clienteCC3);
+cc3.depositar(111.0);
+
+Cuenta ca4 = new CuentaAhorro(22, 22);
+Cliente clienteCC4 = new Cliente();
+clienteCC4.setNombre("Ana");
+ca4.setTitular(clienteCC4);
+ca4.depositar(222.0);
+```
+No olvide importar la clase Cliente, Cuenta, CuentaAhorro y CuentaCorriente.
+
+2. Cómo crearemos otro criterio de comparación, agregue otra clase que también implemente la interfaz *Comparator*. Ya implementando los criterios de ordenación, tendremos lo siguiente:
+
+```java
+class TitularDeCuentaComparator implements Comparator<Cuenta> {
+
+    @Override
+    public int compare(Cuenta c1, Cuenta c2) {
+        String nombreC1 = c1.getTitular().getNombre();
+        String nombreC2 = c2.getTitular().getNombre();
+        return nombreC1.compareTo(nombreC2);
+    }
+}
+```
+
+3. Ahora necesitamos crear otro objeto *Comparador* y cambiar al método *sort*:
+
+```java
+lista.sort(new TitularDeCuentaComparator()); // Ya dejándolo mai delgado
+```
+
+4. Para mostrar las cuentas y los nombres de sus titulares, haremos lo siguiente:
+
+```java
+for (Cuenta cuenta : lista) {
+    System.out.println(cuenta + ", " + cuenta.getTitular().getNombre());
+}
+```
+
+Alternativamente, puede cambiar el método *toString* de la clase *Cuenta*.
+
+5. (Opcional) También pruebe la clasificación a través de la clase *Collections*:
+
+```java
+Collections.sort(lista, new TitularDeCuentaComparator());
+```
+##Orden Natural
+
+1. Ahora definiremos el orden natural de orden de una *Cuenta*. Para hacer esto, primero abra la clase *Cuenta.java* y haga que implemente la interfaz* Comparable* .
+
+2. Tenga en cuenta que ahora estamos obligados a implementar el método que nos impone la interfaz, *compareTo() *e implementaremos nuestra lógica de comparación:
+
+```java
+@Override
+public int compareTo(Cuenta outra) {
+        return Double.compare(this.saldo, outra.saldo);
+}
+```
+
+3. Ahora pruebe usando el método *sort()* de la clase *Collections*:
+
+```java
+Collections.sort(lista);
+```
+
+4. Tenga en cuenta que ahora no tendremos ningún problema ya que hemos definido que tenemos un comparador estándar para la clase *Cuenta*.
+
+5. También podemos forzar el orden natural pasando *null* como parámetro en nuestra *list.sort(null)*.
+
+## ¿Qué aprendimos?
+En esta clase fundamental e importante aprendimos que:
+
+- Para ordenar una lista necesita definir un criterio de ordenación.
+- Hay dos formas de definir este criterio.
+- A través de la interfaz del *comparador*.
+- A través de la interfaz *Comparable* (*orden natural*)
+- El algoritmo de ordenación ya se ha implementado.
+- En la lista en el método de *sort*.
+- En la clase Collections por el método *sort*.
+- La clase *Collections* es una fachada con varios métodos auxiliares para trabajar con colecciones, principalmente listas
+Respire hondo, ya que estamos casi al final de este curso, sin embargo todavía tenemos que aprender (¡por fin!) las famosas expresiones *lambda*. ¿Estás listo para continuar?
+
+### Proyecto del aula anterior
+
+Aquí puedes descargar los archivos del proyecto completo.
+
+[Descargue los archivos en Github](https://github.com/alura-es-cursos/java-util-collections-lambdas/tree/clase-7 "Descargue los archivos en Github") o haga clic [aquí](https://github.com/alura-es-cursos/java-util-collections-lambdas/archive/clase-7.zip "aquí") para descargarlos directamente.

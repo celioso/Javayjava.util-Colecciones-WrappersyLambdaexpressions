@@ -113,7 +113,7 @@ public class TestArrayDePrimitivos {
 
 7. Ahora, inicializa el array en un bucle, por ejemplo:
 
-````java
+```java
 public class TestArrayDePrimitivos {
 
     public static void main(String[] args) {
@@ -131,7 +131,7 @@ public class TestArrayDePrimitivos {
 
 8. Luego haz otro bucle e imprime cada elemento del array:
 
-````java
+```java
 public class TestArrayDePrimitivos {
 
     public static void main(String[] args) {
@@ -166,7 +166,7 @@ public class TestArrayReferencias {
 
 10. Para guardar cuentas, cree un array de CuentaCorriente, con cinco posiciones:
 
-````java
+```java
 public class TestArrayReferencias {
 
     public static void main(String[] args) {
@@ -544,7 +544,7 @@ public class Test {
 
 5.  Ahora queremos comprobar si la cantidad de elementos dentro del guardador es 2. Cree el código en la clase de Test y aproveche la sugerencia de Eclipse para crear el método por usted.
 
-````java
+```java
 public class Test {
     public static void main(String[] args) {
         GuardadorDeCuentas guardador = new GuardadorDeCuentas();
@@ -1107,7 +1107,7 @@ public class TestArrayList {
 
 Tenga en cuenta que algunas líneas de código dejan de compilarse, justo los métodos que usan la posición, cómo *remove(int pos)* o *get(int pos)*. Esto se debe a que solo las listas son secuencias y tienen un índice, pero hay otras colecciones que funcionan sin índice y por lo tanto no tienen estos métodos.
 
-3) Después de probar la interfaz *java.util.Collection*, use la interfaz *java.util.List* nuevamente.
+3. Después de probar la interfaz *java.util.Collection*, use la interfaz *java.util.List* nuevamente.
 
 ## ¿Qué aprendimos?
 
@@ -1124,3 +1124,75 @@ En esta clase vimos:
 ¿Comenzando en esta etapa? Aquí puedes descargar los archivos del proyecto que hemos avanzado hasta el aula anterior.
 
 [Descargue los archivos en Github](https://github.com/alura-es-cursos/java-util-collections-lambdas/tree/clase-5 "Descargue los archivos en Github") o haga clic [aquí](https://github.com/alura-es-cursos/java-util-collections-lambdas/archive/clase-5.zip "aquí") para descargarlos directamente.
+
+### Wrappers
+
+1. Dentro del paquete *com.bytebank.test.util*, cree una nueva clase *TestWrapperInteger* con el método main. Allí, prueba el *autoboxing/unboxing* usando el *wrapper java.lang.Integer*:
+
+```java
+//package e imports omitidos 
+
+public class TestWrapperInteger {
+
+    public static void main(String[] args) {
+
+        Integer edadRef = 29; //autoboxinng, es creado un objeto de tipo Integer
+        int primitivo = new Integer(21); //que locura!! unboxing
+
+        List<Integer> lista = new ArrayList<>();
+        lista.add(edadRef); //ok
+        lista.add(primitivo); //autoboxing
+
+        int i1 = lista.get(0);  //unboxing
+        Integer i2 = lista.get(1);  //ok
+
+        System.out.println(i1);  //29
+        System.out.println(i2); //21
+
+    }
+}
+```
+
+2. Ahora vamos a practicar algunos métodos de la clase *Integer*. Agregue al final del método *main*:
+
+```java
+Integer valorRef = Integer.valueOf (33); // hereda la creación al método valueOf
+int valuePri = valueRef.intValue (); // desenvolver, tomando el valor primitivo del objeto contenedor
+
+System.out.println (valuePri); // 33
+```
+
+3. Ahora probamos el *parsing*, que es la conversión de *String* a un tipo específico. Al final del método *main*, agregue:
+
+```java
+Integer iParseado1 = Integer.valueOf("42"); //parseando y devolviendo referencia
+int iParseado2 = Integer.parseInt("44");  //parseando y devolviendo primitivo
+
+System.out.println(iParseado1); //42
+System.out.println(iParseado2); //44
+```
+
+4. Verifique las constantes de la clase *Integer*. Para hacer esto, agregue en el método *main*:
+
+```java
+System.out.println(Integer.MAX_VALUE); // 2^31 - 1
+System.out.println(Integer.MIN_VALUE); //-2^31
+
+System.out.println(Integer.SIZE); // 32 bits
+System.out.println(Integer.BYTES); //4 Bytes
+```
+
+Ejecute el código para ver el resultado. Todo debe estar funcionando.
+
+## ¿Qué aprendimos?
+
+En esta clase nos enfocamos en las clases de *WRAPPERS* y aprendimos que.
+
+- Para cada primitivo hay una clase llamada *Wrapper*.
+- Para almacenar un primitivo en una colección, necesita crear un objeto que envuelva el valor.
+- La creación del objeto *Wrapper* se llama *autoboxing*.
+- La extracción del valor primitivo del objeto Wrapper se llama unboxing.
+- El *autoboxing* y *unboxing* ocurren automáticamente.
+- Las clases *wrapper* tienen varios métodos auxiliares, por ejemplo para el *parsing*.
+- Todas las clases *wrappers* que representan un valor numérico tienen la clase *java.lang.Number* como madre.
+¡En la próxima clase aprenderemos a ordenar las listas!
